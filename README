@@ -1,0 +1,75 @@
+ElemRV
+======
+
+Fully Open Source RISC-V Microcontroller written in SpinalHDL. The chip layout was done with the IHP SG13G2 PDK and the open RTL-to-GDSII tool OpenROAD.
+
+Installation
+############
+
+- Download and build all components::
+
+	chmod +x init.sh
+	./init.sh
+
+ASIC Flow
+#########
+
+Create a layout from the Verilog file.
+
+.. code-block:: text
+
+    sg13g2-synthesize
+
+Please check Known Issues in case the chip layout failed.
+
+Finally, open the chip layout and inspect the layout.
+
+.. code-block:: text
+
+    sg13g2-gui
+
+Docker
+######
+
+Custom Image
+************
+
+A Docker Compose configuration is provided for systems that do not run with the recommended
+versions. The Docker will have included all required packages for the SDK, except vendor toolchains.
+Build the image (which can take some minutes).
+
+.. code-block:: text
+
+    docker-compose build
+
+Next, start the Docker in the background.
+
+.. code-block:: text
+
+    docker-compose up -d
+
+Afterwards, west can be used identical to the CLI.
+
+.. code-block:: text
+
+    sudo docker exec -it ElemRV_1 make sg13g2-synthesize
+    sudo docker exec -it ElemRV_1 make sg13g2-gui
+
+Finally, stop the Docker.
+
+.. code-block:: text
+
+    docker-compose stop
+
+Known Issues
+############
+
+No known issues so far.
+
+License
+#######
+
+Copyright (c) 2024 Steffen Reith and Daniel Schulty. Released under the `Apache License`_.
+
+.. _Apache License: LICENSE
+

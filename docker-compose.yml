@@ -1,0 +1,24 @@
+version: "2"
+services:
+  zephyr:
+    build: ./
+    environment:
+      - DISPLAY=${DISPLAY}
+    device_cgroup_rules:
+      - 'c *:* rmw'
+    volumes:
+      # Comment out the volume if host directory mapping was enabled
+      - openroad-results:/home/ElemRV-init/tools/OpenROAD-flow-scripts/flow/results
+      - openroad-reports:/home/ElemRV-init/tools/OpenROAD-flow-scripts/flow/reports
+      - openroad-logs:/home/ElemRV-init/tools/OpenROAD-flow-scripts/flow/logs
+
+      # Internal. Do not modify.
+      - zephyr-build:/home/elements-sdk/zephyr/build/
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /dev/:/dev/
+    command: ["sleep", "infinity"]
+
+volumes:
+  openroad-results: {}
+  openroad-reports: {}
+  openroad-logs: {}
