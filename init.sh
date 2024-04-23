@@ -49,9 +49,9 @@ function install_openroad {
 	mkdir -p tools
 	cd tools
 	wget https://github.com/Precision-Innovations/OpenROAD/releases/download/${OPENROAD_VERSION}/openroad_2.0_amd64-debian11-${OPENROAD_VERSION}.deb
-	sudo apt install ./openroad_2.0_amd64-debian11-${OPENROAD_VERSION}.deb
+	sudo apt install -y ./openroad_2.0_amd64-debian11-${OPENROAD_VERSION}.deb
 	wget https://www.klayout.org/downloads/Ubuntu-22/klayout_${KLAYOUT_VERSION}-1_amd64.deb
-	sudo apt install ./klayout_${KLAYOUT_VERSION}-1_amd64.deb
+	sudo apt install -y ./klayout_${KLAYOUT_VERSION}-1_amd64.deb
 	rm ./*.deb
 	git clone https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts.git
 	cd OpenROAD-flow-scripts/

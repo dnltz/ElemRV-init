@@ -4,6 +4,7 @@ ENV DEBIAN_FRONTEND="noninteractive" TZ="Europe/Berlin"
 
 RUN apt-get update && apt-get install -y \
     sudo \
+    software-properties-common \
     ssh \
     git \
     curl \
@@ -20,9 +21,10 @@ RUN apt-get update && apt-get install -y \
     libfl-dev \
     cmake \
     libftdi1-dev \
-    python3 \
+    python3.10 \
     python3.10-dev \
     python3-pip \
+    libpython3.10 \
     virtualenv \
     openjdk-11-jdk-headless \
     verilator \
@@ -33,6 +35,12 @@ RUN apt-get update && apt-get install -y \
     libncurses5 \
     klayout
 
+RUN add-apt-repository ppa:deadsnakes/ppa
+RUN apt-get update && apt-get install -y \
+    python3.9 \
+    python3.9-dev \
+    python3-pip \
+    libpython3.9
 
 RUN echo "deb https://repo.scala-sbt.org/scalasbt/debian all main" | tee /etc/apt/sources.list.d/sbt.list
 RUN echo "deb https://repo.scala-sbt.org/scalasbt/debian /" | tee /etc/apt/sources.list.d/sbt_old.list
@@ -41,6 +49,7 @@ RUN chmod 644 /etc/apt/trusted.gpg.d/scalasbt-release.gpg
 RUN apt-get update && apt-get install -y sbt
 
 WORKDIR home/
+
 RUN git clone https://github.com/dnltz/ElemRV-init.git
 WORKDIR ElemRV-init
 RUN chmod +x init.sh
