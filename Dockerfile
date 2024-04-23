@@ -3,6 +3,7 @@ FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND="noninteractive" TZ="Europe/Berlin"
 
 RUN apt-get update && apt-get install -y \
+    sudo \
     ssh \
     git \
     curl \
