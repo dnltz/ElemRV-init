@@ -46,6 +46,9 @@ function install_pdk {
 }
 
 function install_openroad {
+        sudo add-apt-repository -y ppa:deadsnakes/ppa
+        sudo apt-get update
+        sudo apt-get install -y python3.9 python3.9-dev python3-pip libpython3.9
 	mkdir -p tools
 	cd tools
 	wget https://github.com/Precision-Innovations/OpenROAD/releases/download/${OPENROAD_VERSION}/openroad_2.0_amd64-debian11-${OPENROAD_VERSION}.deb
