@@ -13,6 +13,8 @@ SG13G2_IO_DIR_PATH=${PWD}/pdks/IHP-Open-PDK/
 OSS_CAD_SUITE_DATE="2024-04-18"
 OSS_CAD_SUITE_STAMP="${OSS_CAD_SUITE_DATE//-}"
 
+IHP_PDK_HOME=${PWD}/pdks/IHP-Open-PDK/
+KLAYOUT_HOME=${IHP_PDK_HOME}/ihp-sg13g2/libs.tech/klayout/
 
 
 sg13g2-synthesize:
@@ -20,6 +22,9 @@ sg13g2-synthesize:
 
 sg13g2-gui:
 	openroad -gui <(echo read_db ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.odb)
+
+sg13g2-klayout:
+	klayout -e ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.gds
 
 # Misc.
 clean:
