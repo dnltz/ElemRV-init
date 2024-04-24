@@ -29,3 +29,6 @@ sg13g2-klayout:
 # Misc.
 clean:
 	rm -rf build/
+	rm -rf ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base
+	rm -rf ${OPENROAD_FLOW_ROOT}/reports/ihp-sg13g2/ElemRV/base
+	rm -rf ${OPENROAD_FLOW_ROOT}/logs/ihp-sg13g2/ElemRV/base
