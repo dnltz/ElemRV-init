@@ -44,6 +44,8 @@ function install_pdk {
 	git checkout -t origin/WIP/dnltz/io-verilog
         cd ihp-sg13g2/libs.ref/sg13g2_io/verilog
 	cp sg13g2_io.v ../../../../../
+        cd ../lef
+        cp bondpad_70x70.lef ../../../../../
 	cd ../../../../../
 	mv IHP-Open-PDK IHP-Open-PDK_Daniel
 	git clone git@github.com:IHP-GmbH/IHP-Open-PDK.git
@@ -52,6 +54,7 @@ function install_pdk {
 	cd ../
 	mkdir IHP-Open-PDK/ihp-sg13g2/libs.ref/sg13g2_io/verilog
 	cp sg13g2_io.v IHP-Open-PDK/ihp-sg13g2/libs.ref/sg13g2_io/verilog
+        cp bondpad_70x70.lef IHP-Open-PDK/ihp-sg13g2/libs.ref/sg13g2_io/lef
 	cd ../
 }
 
