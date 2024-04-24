@@ -52,6 +52,7 @@ function install_pdk {
 	cd ../
 	mkdir IHP-Open-PDK/ihp-sg13g2/libs.ref/sg13g2_io/verilog
 	cp sg13g2_io.v IHP-Open-PDK/ihp-sg13g2/libs.ref/sg13g2_io/verilog
+	cd ../
 }
 
 function install_openroad {
