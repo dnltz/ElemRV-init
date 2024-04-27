@@ -16,6 +16,16 @@ OSS_CAD_SUITE_STAMP="${OSS_CAD_SUITE_DATE//-}"
 IHP_PDK_HOME=${PWD}/pdks/IHP-Open-PDK/
 KLAYOUT_HOME=${IHP_PDK_HOME}/ihp-sg13g2/libs.tech/klayout/
 
+BOARD=SG13G2
+SOC=ElemRV
+NAFARR_BASE=${PWD}/modules/elements/nafarr/
+
+sg13g2-generate:
+	cd modules/elements/zibal && sbt "runMain elements.soc.elemrv.SG13G2Generate"
+
+sg13g2-simulate:
+	cd modules/elements/zibal && sbt "runMain elements.soc.elemrv.SG13G2Simulate simulate 1000"
+	gtkwave -o modules/elements/zibal/build/${SOC}/${BOARD}/zibal/${BOARD}Board/simulate/wave.vcd
 
 sg13g2-synthesize:
 	source ${OPENROAD_FLOW_ROOT}/../env.sh && make -C ${OPENROAD_FLOW_ROOT} DESIGN_CONFIG=${OPENROAD_FLOW_ROOT}/designs/ihp-sg13g2/ElemRV/config.mk

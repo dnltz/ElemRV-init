@@ -17,15 +17,15 @@ function fetch_elements {
 	cd ../
 	git clone git@github.com:aesc-silicon/elements-nafarr.git nafarr
 	cd nafarr
-	git checkout 281930a5e879
+	git checkout 331f0ece250a
 	cd ../
 	git clone git@github.com:aesc-silicon/elements-zibal.git zibal
 	cd zibal
-	git checkout ec5c139b4fe6
+	git checkout 74394a9c61c1
 	cd ../
 	git clone git@github.com:aesc-silicon/elements-vexriscv.git vexriscv
 	cd vexriscv
-	git checkout 1ea2027464a1
+	git checkout 15e5d08322ef
 	cd ../
 	cd ../../
 }
