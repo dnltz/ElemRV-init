@@ -8,6 +8,11 @@ OPENROAD_VERSION=2024-04-16
 OPENROAD_FLOW_VERSION=5ef5a3ebb51
 KLAYOUT_VERSION=0.29.0
 
+ZEPHYR_SDK_RELEASE=0.16.5
+
+NAFARR_VERSION=072bf1ed3125a92e6f09c876c9040179b8d698a0
+ZIBAL_VERSION=6fb6007202ce1a63b9c341f577ac8e1edd7ed108
+
 function fetch_elements {
 	mkdir -p modules/elements
 	cd modules/elements/
@@ -17,11 +22,11 @@ function fetch_elements {
 	cd ../
 	git clone git@github.com:aesc-silicon/elements-nafarr.git nafarr
 	cd nafarr
-	git checkout 331f0ece250a
+	git checkout ${NAFARR_VERSION}
 	cd ../
 	git clone git@github.com:aesc-silicon/elements-zibal.git zibal
 	cd zibal
-	git checkout 74394a9c61c1
+	git checkout ${ZIBAL_VERSION}
 	cd ../
 	git clone git@github.com:aesc-silicon/elements-vexriscv.git vexriscv
 	cd vexriscv
@@ -34,6 +39,13 @@ function fetch_oss_cad_suite_build {
 	wget https://github.com/YosysHQ/oss-cad-suite-build/releases/download/${OSS_CAD_SUITE_DATE}/oss-cad-suite-linux-x64-${OSS_CAD_SUITE_STAMP}.tgz
 	tar -xvf oss-cad-suite-linux-x64-${OSS_CAD_SUITE_STAMP}.tgz
 	rm oss-cad-suite-linux-x64-${OSS_CAD_SUITE_STAMP}.tgz
+}
+
+function fetch_zephyr_sdk {
+	wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${ZEPHYR_SDK_RELEASE}/zephyr-sdk-${ZEPHYR_SDK_RELEASE}_linux-x86_64.tar.xz
+	wget -O - https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v${ZEPHYR_SDK_RELEASE}/sha256.sum | shasum --check --ignore-missing
+	tar xvf zephyr-sdk-${ZEPHYR_SDK_RELEASE}_linux-x86_64.tar.xz
+	rm zephyr-sdk-${ZEPHYR_SDK_RELEASE}_linux-x86_64.tar.xz
 }
 
 function install_pdk {
@@ -92,6 +104,9 @@ done
 
 if ! test -d "modules/elements"; then
 	fetch_elements
+fi
+if ! test -d "zephyr-sdk-${ZEPHYR_SDK_RELEASE}"; then
+	fetch_zephyr_sdk
 fi
 if ! test -d "oss-cad-suite"; then
 	fetch_oss_cad_suite_build

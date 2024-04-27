@@ -19,12 +19,20 @@ KLAYOUT_HOME=${IHP_PDK_HOME}/ihp-sg13g2/libs.tech/klayout/
 BOARD=SG13G2
 SOC=ElemRV
 NAFARR_BASE=${PWD}/modules/elements/nafarr/
+ZIBAL_BASE=${PWD}/modules/elements/zibal/
+ELEMENTS_BASE=${ZIBAL_BASE}
+GCC=${PWD}/zephyr-sdk-0.16.5/riscv64-zephyr-elf/bin/riscv64-zephyr-elf
 
 sg13g2-generate:
 	cd modules/elements/zibal && sbt "runMain elements.soc.elemrv.SG13G2Generate"
 
+sg13g2-compile:
+	make -C ${ZIBAL_BASE}/software/bootrom
+	mkdir -p ${ZIBAL_BASE}/build/zephyr
+	cp ${ZIBAL_BASE}/build/${SOC}/${BOARD}/bootrom/kernel.img ${ZIBAL_BASE}/build/zephyr/zephyr.bin
+
 sg13g2-simulate:
-	cd modules/elements/zibal && sbt "runMain elements.soc.elemrv.SG13G2Simulate simulate 1000"
+	cd modules/elements/zibal && sbt "runMain elements.soc.elemrv.SG13G2Simulate simulate 100"
 	gtkwave -o modules/elements/zibal/build/${SOC}/${BOARD}/zibal/${BOARD}Board/simulate/wave.vcd
 
 sg13g2-synthesize:
