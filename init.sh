@@ -53,7 +53,7 @@ function install_pdk {
 	cd pdks/
 	git clone git@github.com:dnltz/IHP-Open-PDK.git
 	cd IHP-Open-PDK
-	git checkout -t origin/WIP/dnltz/dev-io-verilog
+	git checkout -t origin/ElemRV
 	cd ../../
 }
 
