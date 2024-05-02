@@ -18,10 +18,25 @@ KLAYOUT_HOME=${IHP_PDK_HOME}/ihp-sg13g2/libs.tech/klayout/
 
 BOARD=SG13G2
 SOC=ElemRV
+FPGA_FAMILY=ecp5
+FPGA_DEVICE=um5g-45k
+FPGA_PACKAGE=CABGA554
+FPGA_FREQUENCY=50
+OPENFPGALOADER_BOARD=ecpix5_r03
 NAFARR_BASE=${PWD}/modules/elements/nafarr/
 ZIBAL_BASE=${PWD}/modules/elements/zibal/
+BUILD_ROOT=${ZIBAL_BASE}/build/
 ELEMENTS_BASE=${ZIBAL_BASE}
 GCC=${PWD}/zephyr-sdk-0.16.5/riscv64-zephyr-elf/bin/riscv64-zephyr-elf
+
+ecpix5-generate:
+	cd modules/elements/zibal && BOARD=ECPIX5 sbt "runMain elements.soc.elemrv.ECPIX5Generate"
+
+ecpix5-synthesize:
+	BOARD=ECPIX5 ${ZIBAL_BASE}/eda/Lattice/fpga/syn.sh
+
+ecpix5-flash:
+	openFPGALoader -b ${OPENFPGALOADER_BOARD} ${BUILD_ROOT}/${SOC}/ECPIX5/fpga/ECPIX5Top.bit
 
 sg13g2-generate:
 	cd modules/elements/zibal && sbt "runMain elements.soc.elemrv.SG13G2Generate"
