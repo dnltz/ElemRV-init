@@ -59,6 +59,13 @@ sg13g2-gui:
 sg13g2-klayout:
 	klayout -e ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.gds
 
+sg13g2-drc:
+#	(cd ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base && klayout -b -r ${OPENROAD_FLOW_ROOT}/platforms/ihp-sg13g2/drc/sg13g2.lydrc -rd cell=ElemRVTop ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.gds)
+	(cd ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base && klayout -b -r ${OPENROAD_FLOW_ROOT}/../../../pdks/IHP-Open-PDK/ihp-sg13g2/libs.tech/klayout/tech/drc/sg13g2.lydrc -rd cell=ElemRVTop ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.gds)
+
+sg13g2-drc-gui:
+	(cd ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base && klayout 6_final.gds -m sg13g2_ElemRVTop.lyrdb)
+
 # Misc.
 clean:
 	rm -rf build/
