@@ -4,14 +4,15 @@ PATH=${PWD}/oss-cad-suite/bin/:$PATH
 OSS_CAD_SUITE_DATE="2024-04-16"
 OSS_CAD_SUITE_STAMP="${OSS_CAD_SUITE_DATE//-}"
 
-OPENROAD_VERSION=2024-04-16
-OPENROAD_FLOW_VERSION=5ef5a3ebb51
+OPENROAD_VERSION=2024-04-25
+OPENROAD_FLOW_ORGA=KrzysztofHerman
+OPENROAD_FLOW_VERSION=April24_Update
 KLAYOUT_VERSION=0.29.0
 
 ZEPHYR_SDK_RELEASE=0.16.5
 
 NAFARR_VERSION=072bf1ed3125a92e6f09c876c9040179b8d698a0
-ZIBAL_VERSION=6fb6007202ce1a63b9c341f577ac8e1edd7ed108
+ZIBAL_VERSION=6d3c9b406c102cf7dfa8b3210aa90104651952a9
 
 function fetch_elements {
 	mkdir -p modules/elements
@@ -63,15 +64,15 @@ function install_openroad {
         sudo apt-get install -y python3.9 python3.9-dev python3-pip libpython3.9
 	mkdir -p tools
 	cd tools
-	wget https://github.com/Precision-Innovations/OpenROAD/releases/download/${OPENROAD_VERSION}/openroad_2.0_amd64-debian11-${OPENROAD_VERSION}.deb
-	sudo apt install -y ./openroad_2.0_amd64-debian11-${OPENROAD_VERSION}.deb
+	wget https://github.com/Precision-Innovations/OpenROAD/releases/download/${OPENROAD_VERSION}/openroad_2.0_amd64-ubuntu22.04-${OPENROAD_VERSION}.deb
+	sudo apt install -y ./openroad_2.0_amd64-ubuntu22.04-${OPENROAD_VERSION}.deb
 	wget https://www.klayout.org/downloads/Ubuntu-22/klayout_${KLAYOUT_VERSION}-1_amd64.deb
 	sudo apt install -y ./klayout_${KLAYOUT_VERSION}-1_amd64.deb
 	rm ./*.deb
-	git clone https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts.git
+	git clone https://github.com/${OPENROAD_FLOW_ORGA}/OpenROAD-flow-scripts.git
 	cd OpenROAD-flow-scripts/
 	git checkout ${OPENROAD_FLOW_VERSION}
-	git submodule update --init --recursive
+	git submodule update --init --recursive --progress
 	cd flow/designs/ihp-sg13g2/
 	git clone git@github.com:SteffenReith/ElemRV.git
 	cd ../../../
