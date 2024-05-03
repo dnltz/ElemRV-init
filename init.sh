@@ -36,6 +36,10 @@ function fetch_elements {
 	cd ../../
 }
 
+function fetch_elemrv {
+	git clone git@github.com:SteffenReith/ElemRV.git
+}
+
 function fetch_oss_cad_suite_build {
 	wget https://github.com/YosysHQ/oss-cad-suite-build/releases/download/${OSS_CAD_SUITE_DATE}/oss-cad-suite-linux-x64-${OSS_CAD_SUITE_STAMP}.tgz
 	tar -xvf oss-cad-suite-linux-x64-${OSS_CAD_SUITE_STAMP}.tgz
@@ -59,9 +63,9 @@ function install_pdk {
 }
 
 function install_openroad {
-        sudo add-apt-repository -y ppa:deadsnakes/ppa
-        sudo apt-get update
-        sudo apt-get install -y python3.9 python3.9-dev python3-pip libpython3.9
+	sudo add-apt-repository -y ppa:deadsnakes/ppa
+	sudo apt-get update
+	sudo apt-get install -y python3.9 python3.9-dev python3-pip libpython3.9
 	mkdir -p tools
 	cd tools
 	wget https://github.com/Precision-Innovations/OpenROAD/releases/download/${OPENROAD_VERSION}/openroad_2.0_amd64-ubuntu22.04-${OPENROAD_VERSION}.deb
@@ -73,9 +77,6 @@ function install_openroad {
 	cd OpenROAD-flow-scripts/
 	git checkout ${OPENROAD_FLOW_VERSION}
 	git submodule update --init --recursive --progress
-	cd flow/designs/ihp-sg13g2/
-	git clone git@github.com:SteffenReith/ElemRV.git
-	cd ../../../
 	cd ../../
 }
 
@@ -105,6 +106,9 @@ done
 
 if ! test -d "modules/elements"; then
 	fetch_elements
+fi
+if ! test -d "ElemRV"; then
+	fetch_elemrv
 fi
 if ! test -d "zephyr-sdk-${ZEPHYR_SDK_RELEASE}"; then
 	fetch_zephyr_sdk

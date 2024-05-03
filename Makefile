@@ -15,6 +15,7 @@ OSS_CAD_SUITE_STAMP="${OSS_CAD_SUITE_DATE//-}"
 
 IHP_PDK_HOME=${PWD}/pdks/IHP-Open-PDK/
 KLAYOUT_HOME=${IHP_PDK_HOME}/ihp-sg13g2/libs.tech/klayout/
+ELEMRV_HOME=${PWD}/ElemRV/
 
 BOARD=SG13G2
 SOC=ElemRV
@@ -28,6 +29,9 @@ ZIBAL_BASE=${PWD}/modules/elements/zibal/
 BUILD_ROOT=${ZIBAL_BASE}/build/
 ELEMENTS_BASE=${ZIBAL_BASE}
 GCC=${PWD}/zephyr-sdk-0.16.5/riscv64-zephyr-elf/bin/riscv64-zephyr-elf
+
+tapeout: sg13g2-synthesize sg13g2-drc sg13g2-drc-gui
+.PHONY: tapeout
 
 ecpix5-generate:
 	cd modules/elements/zibal && BOARD=ECPIX5 sbt "runMain elements.soc.elemrv.ECPIX5Generate"
@@ -51,17 +55,16 @@ sg13g2-simulate:
 	gtkwave -o modules/elements/zibal/build/${SOC}/${BOARD}/zibal/${BOARD}Board/simulate/wave.vcd
 
 sg13g2-synthesize:
-	source ${OPENROAD_FLOW_ROOT}/../env.sh && make -C ${OPENROAD_FLOW_ROOT} DESIGN_CONFIG=${OPENROAD_FLOW_ROOT}/designs/ihp-sg13g2/ElemRV/config.mk
+	source ${OPENROAD_FLOW_ROOT}/../env.sh && make -C ${OPENROAD_FLOW_ROOT} DESIGN_CONFIG=${PWD}/ElemRV/config.mk
 
-sg13g2-gui:
+sg13g2-openroad:
 	openroad -gui <(echo read_db ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.odb)
 
 sg13g2-klayout:
 	klayout -e ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.gds
 
 sg13g2-drc:
-#	(cd ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base && klayout -b -r ${OPENROAD_FLOW_ROOT}/platforms/ihp-sg13g2/drc/sg13g2.lydrc -rd cell=ElemRVTop ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.gds)
-	(cd ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base && klayout -b -r ${OPENROAD_FLOW_ROOT}/../../../pdks/IHP-Open-PDK/ihp-sg13g2/libs.tech/klayout/tech/drc/sg13g2.lydrc -rd cell=ElemRVTop ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.gds)
+	(cd ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base && klayout -b -r ${IHP_PDK_HOME}/ihp-sg13g2/libs.tech/klayout/tech/drc/sg13g2.lydrc -rd cell=ElemRVTop ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.gds)
 
 sg13g2-drc-gui:
 	(cd ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base && klayout 6_final.gds -m sg13g2_ElemRVTop.lyrdb)
