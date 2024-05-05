@@ -1,5 +1,6 @@
 build/
 ElemRV/
+elemrv_tb*
 modules/
 oss-cad-suite/
 pdks/

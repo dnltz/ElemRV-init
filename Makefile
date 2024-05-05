@@ -57,6 +57,16 @@ sg13g2-simulate:
 sg13g2-synthesize:
 	source ${OPENROAD_FLOW_ROOT}/../env.sh && make -C ${OPENROAD_FLOW_ROOT} DESIGN_CONFIG=${PWD}/ElemRV/config.mk
 
+sg13g2-test:
+	iverilog -o elemrv_tb \
+		ElemRV/test/elemrv_tb.v \
+		${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.v \
+		${IHP_PDK_HOME}/ihp-sg13g2/libs.ref/sg13g2_stdcell/verilog/sg13g2_stdcell.v \
+		${IHP_PDK_HOME}/ihp-sg13g2/libs.ref/sg13g2_io/verilog/sg13g2_io.v
+	./elemrv_tb
+	# Don't use gtkwave from oss-cad-suite
+	/usr/bin/gtkwave -F elemrv_tb.vcd.fst
+
 sg13g2-openroad:
 	openroad -gui <(echo read_db ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.odb)
 
@@ -75,3 +85,4 @@ clean:
 	rm -rf ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base
 	rm -rf ${OPENROAD_FLOW_ROOT}/reports/ihp-sg13g2/ElemRV/base
 	rm -rf ${OPENROAD_FLOW_ROOT}/logs/ihp-sg13g2/ElemRV/base
+	rm -rf elemrv_tb elemrv_tb.vcd elemrv_tb.vcd.fst
