@@ -16,6 +16,7 @@ OSS_CAD_SUITE_STAMP="${OSS_CAD_SUITE_DATE//-}"
 IHP_PDK_HOME=${PWD}/pdks/IHP-Open-PDK/
 KLAYOUT_HOME=${IHP_PDK_HOME}/ihp-sg13g2/libs.tech/klayout/
 ELEMRV_HOME=${PWD}/ElemRV/
+XILINX_HOME=/opt/xilinx/Vivado/2020.2/
 
 BOARD=SG13G2
 SOC=ElemRV
@@ -66,6 +67,15 @@ sg13g2-test:
 	./elemrv_tb
 	# Don't use gtkwave from oss-cad-suite
 	/usr/bin/gtkwave -F elemrv_tb.vcd.fst
+
+sg13g2-test-xilinx:
+	$(XILINX_HOME)/bin/xvlog ElemRV/test/elemrv_tb.v
+	$(XILINX_HOME)/bin/xvlog ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.v
+	$(XILINX_HOME)/bin/xvlog ${IHP_PDK_HOME}/ihp-sg13g2/libs.ref/sg13g2_stdcell/verilog/sg13g2_stdcell.v
+	$(XILINX_HOME)/bin/xvlog ${IHP_PDK_HOME}/ihp-sg13g2/libs.ref/sg13g2_io/verilog/sg13g2_io.v
+	$(XILINX_HOME)/bin/xelab -debug typical -top elemrv_tb -snapshot elemrv_tb_snapshot
+	$(XILINX_HOME)/bin/xsim elemrv_tb_snapshot --tclbatch ElemRV/test/xsim_cfg.tcl
+	$(XILINX_HOME)/bin/xsim --gui elemrv_tb_snapshot.wdb
 
 sg13g2-openroad:
 	openroad -gui <(echo read_db ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.odb)

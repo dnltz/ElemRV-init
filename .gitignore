@@ -10,3 +10,9 @@ simWorkspace/
 target/
 tools/
 zephyr-*
+.Xil/
+vivado*
+webtalk*
+xelab*
+xsim*
+xvlog*
