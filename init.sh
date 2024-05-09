@@ -37,7 +37,10 @@ function fetch_elements {
 }
 
 function fetch_elemrv {
+	mkdir -p tools/OpenROAD-flow-scripts/flow/designs/ihp-sg13g2/
+	cd tools/OpenROAD-flow-scripts/flow/designs/ihp-sg13g2/
 	git clone git@github.com:SteffenReith/ElemRV.git
+	cd -
 }
 
 function fetch_oss_cad_suite_build {
@@ -107,9 +110,6 @@ done
 if ! test -d "modules/elements"; then
 	fetch_elements
 fi
-if ! test -d "ElemRV"; then
-	fetch_elemrv
-fi
 if ! test -d "zephyr-sdk-${ZEPHYR_SDK_RELEASE}"; then
 	fetch_zephyr_sdk
 fi
@@ -121,6 +121,7 @@ if ! test -d "pdks"; then
 fi
 if ! test -d "tools/OpenROAD-flow-scripts"; then
 	install_openroad
+	fetch_elemrv
 fi
 if ! test -d "tools/gdsiistl"; then
 	install_gdsiistl
