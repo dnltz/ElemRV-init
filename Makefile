@@ -88,6 +88,14 @@ sg13g2-drc:
 sg13g2-drc-gui:
 	(cd ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base && klayout 6_final.gds -m sg13g2_ElemRVTop.lyrdb)
 
+sg13g2-release:
+	cp -r ElemRV/* modules/IHP-Open-DesignLib/ElemRV/OpenROAD-flow-scripts/designs/ihp-13g2/ElemRV/ 
+	cp ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/1_synth.sdc modules/IHP-Open-DesignLib/ElemRV/OpenROAD-flow-scripts/results/ihp-13g2/ElemRV/base/
+	cp ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/1_synth.v modules/IHP-Open-DesignLib/ElemRV/OpenROAD-flow-scripts/results/ihp-13g2/ElemRV/base/
+	cp ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.def modules/IHP-Open-DesignLib/ElemRV/OpenROAD-flow-scripts/results/ihp-13g2/ElemRV/base/
+	cp ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.sdc modules/IHP-Open-DesignLib/ElemRV/OpenROAD-flow-scripts/results/ihp-13g2/ElemRV/base/
+	cp ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.spef modules/IHP-Open-DesignLib/ElemRV/OpenROAD-flow-scripts/results/ihp-13g2/ElemRV/base/
+
 # Misc.
 clean:
 	rm -rf build/
