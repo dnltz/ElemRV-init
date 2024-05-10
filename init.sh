@@ -94,6 +94,12 @@ function install_gdsiistl {
 	cd ../../
 }
 
+function clone_release_repro {
+	cd modules
+	git clone git@github.com:SteffenReith/IHP-Open-DesignLib.git
+        cd ..
+}
+
 function print_usage {
 	echo "init.sh [-h]"
 	echo "\t-h: Show this help message"
@@ -126,3 +132,7 @@ fi
 if ! test -d "tools/gdsiistl"; then
 	install_gdsiistl
 fi
+if ! test -d "modules/IHP-Open-DesignLib"; then
+	clone_release_repro
+fi
+
