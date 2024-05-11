@@ -6,7 +6,8 @@ OSS_CAD_SUITE_STAMP="${OSS_CAD_SUITE_DATE//-}"
 
 OPENROAD_VERSION=2024-04-25
 OPENROAD_FLOW_ORGA=KrzysztofHerman
-OPENROAD_FLOW_VERSION=April24_Update
+# https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/pull/2002
+OPENROAD_FLOW_VERSION=f919e604b94d7673ba2a5b0227a515dc8eac4700
 KLAYOUT_VERSION=0.29.0
 
 ZEPHYR_SDK_RELEASE=0.16.5
@@ -59,9 +60,9 @@ function fetch_zephyr_sdk {
 function install_pdk {
 	mkdir -p pdks
 	cd pdks/
-	git clone git@github.com:dnltz/IHP-Open-PDK.git
+	git clone git@github.com:IHP-GmbH/IHP-Open-PDK.git
 	cd IHP-Open-PDK
-	git checkout -t origin/ElemRV
+	git checkout -t origin/dev
 	cd ../../
 }
 

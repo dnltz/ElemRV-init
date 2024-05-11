@@ -8,13 +8,10 @@ CAD_ROOT=${PWD}/tools/magic/build/lib/
 OPENROAD_EXE=/usr/bin/openroad
 YOSYS_CMD=${PWD}/oss-cad-suite/bin/yosys
 
-SG13G2_IO_DIR_PATH=${PWD}/pdks/IHP-Open-PDK/
-
 OSS_CAD_SUITE_DATE="2024-04-18"
 OSS_CAD_SUITE_STAMP="${OSS_CAD_SUITE_DATE//-}"
 
-IHP_PDK_HOME=${PWD}/pdks/IHP-Open-PDK/
-KLAYOUT_HOME=${IHP_PDK_HOME}/ihp-sg13g2/libs.tech/klayout/
+KLAYOUT_HOME=${PWD}/pdks/IHP-Open-PDK/ihp-sg13g2/libs.tech/klayout/
 XILINX_HOME=/opt/xilinx/Vivado/2020.2/
 
 BOARD=SG13G2
@@ -61,17 +58,17 @@ sg13g2-test:
 	iverilog -o elemrv_tb \
 		${OPENROAD_FLOW_ROOT}/designs/ihp-sg13g2/ElemRV/test/elemrv_tb.v \
 		${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.v \
-		${IHP_PDK_HOME}/ihp-sg13g2/libs.ref/sg13g2_stdcell/verilog/sg13g2_stdcell.v \
-		${IHP_PDK_HOME}/ihp-sg13g2/libs.ref/sg13g2_io/verilog/sg13g2_io.v
+		${OPENROAD_FLOW_ROOT}/platforms/ihp-sg13g2/verilog/sg13g2_stdcell.v \
+		${OPENROAD_FLOW_ROOT}/platforms/ihp-sg13g2/verilog/sg13g2_io.v
 	./elemrv_tb
 	# Don't use gtkwave from oss-cad-suite
-	/usr/bin/gtkwave -F elemrv_tb.vcd.fst
+	/usr/bin/gtkwave -F elemrv_tb.vcd
 
 sg13g2-test-xilinx:
 	$(XILINX_HOME)/bin/xvlog ${OPENROAD_FLOW_ROOT}/designs/ihp-sg13g2/ElemRV/test/elemrv_tb.v
 	$(XILINX_HOME)/bin/xvlog ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.v
-	$(XILINX_HOME)/bin/xvlog ${IHP_PDK_HOME}/ihp-sg13g2/libs.ref/sg13g2_stdcell/verilog/sg13g2_stdcell.v
-	$(XILINX_HOME)/bin/xvlog ${IHP_PDK_HOME}/ihp-sg13g2/libs.ref/sg13g2_io/verilog/sg13g2_io.v
+	$(XILINX_HOME)/bin/xvlog ${OPENROAD_FLOW_ROOT}/platforms/ihp-sg13g2/verilog/sg13g2_stdcell.v
+	$(XILINX_HOME)/bin/xvlog ${OPENROAD_FLOW_ROOT}/platforms/ihp-sg13g2/verilog/sg13g2_stdcell.v
 	$(XILINX_HOME)/bin/xelab -debug typical -top elemrv_tb -snapshot elemrv_tb_snapshot
 	$(XILINX_HOME)/bin/xsim elemrv_tb_snapshot --tclbatch ${OPENROAD_FLOW_ROOT}/designs/ihp-sg13g2/ElemRV/test/xsim_cfg.tcl
 	$(XILINX_HOME)/bin/xsim --gui elemrv_tb_snapshot.wdb
@@ -83,7 +80,7 @@ sg13g2-klayout:
 	klayout -e ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.gds
 
 sg13g2-drc:
-	(cd ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base && klayout -b -r ${IHP_PDK_HOME}/ihp-sg13g2/libs.tech/klayout/tech/drc/sg13g2.lydrc -rd cell=ElemRVTop ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.gds)
+	(cd ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base && klayout -b -r ${KLAYOUT_HOME}/tech/drc/sg13g2.lydrc -rd cell=ElemRVTop ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.gds)
 
 sg13g2-drc-gui:
 	(cd ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base && klayout 6_final.gds -m sg13g2_ElemRVTop.lyrdb)
@@ -103,3 +100,5 @@ clean:
 	rm -rf ${OPENROAD_FLOW_ROOT}/reports/ihp-sg13g2/ElemRV/base
 	rm -rf ${OPENROAD_FLOW_ROOT}/logs/ihp-sg13g2/ElemRV/base
 	rm -rf elemrv_tb elemrv_tb.vcd elemrv_tb.vcd.fst
+	rm -rf xsim* xvlog* xelab* webtalk* elemrv_tb_snapshot.wdb
+	rm -rf *lyrdb
