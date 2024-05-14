@@ -88,7 +88,7 @@ sg13g2-drc-gui:
 sg13g2-release:
 	mkdir -p modules/IHP-Open-DesignLib/ElemRV/OpenROAD-flow-scripts/results/ihp-13g2/ElemRV/base/
 	mkdir -p modules/IHP-Open-DesignLib/ElemRV/OpenROAD-flow-scripts/designs/ihp-13g2/ElemRV/
-	cp -r ${OPENROAD_FLOW_ROOT}/designs/ihp-sg13g2/ElemRV/* modules/IHP-Open-DesignLib/ElemRV/OpenROAD-flow-scripts/designs/ihp-13g2/ElemRV/ 
+	cp -r ${OPENROAD_FLOW_ROOT}/designs/ihp-sg13g2/ElemRV/* modules/IHP-Open-DesignLib/ElemRV/OpenROAD-flow-scripts/designs/ihp-13g2/ElemRV/
 	cp ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/1_synth.sdc modules/IHP-Open-DesignLib/ElemRV/OpenROAD-flow-scripts/results/ihp-13g2/ElemRV/base/
 	cp ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/1_synth.v modules/IHP-Open-DesignLib/ElemRV/OpenROAD-flow-scripts/results/ihp-13g2/ElemRV/base/
 	cp ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.def modules/IHP-Open-DesignLib/ElemRV/OpenROAD-flow-scripts/results/ihp-13g2/ElemRV/base/
