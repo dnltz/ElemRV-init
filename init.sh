@@ -4,7 +4,7 @@ PATH=${PWD}/oss-cad-suite/bin/:$PATH
 OSS_CAD_SUITE_DATE="2024-04-16"
 OSS_CAD_SUITE_STAMP="${OSS_CAD_SUITE_DATE//-}"
 
-OPENROAD_VERSION=2024-04-25
+OPENROAD_VERSION=2024-05-15
 OPENROAD_FLOW_ORGA=dnltz
 OPENROAD_FLOW_VERSION=2ff42a33f0504e4f8660940e5574704f9a342a60
 KLAYOUT_VERSION=0.29.0
@@ -71,8 +71,8 @@ function install_openroad {
 	sudo apt-get install -y python3.9 python3.9-dev python3-pip libpython3.9
 	mkdir -p tools
 	cd tools
-	wget https://github.com/Precision-Innovations/OpenROAD/releases/download/${OPENROAD_VERSION}/openroad_2.0_amd64-ubuntu22.04-${OPENROAD_VERSION}.deb
-	sudo apt install -y ./openroad_2.0_amd64-ubuntu22.04-${OPENROAD_VERSION}.deb
+	wget https://github.com/Precision-Innovations/OpenROAD/releases/download/${OPENROAD_VERSION}/openroad_2.0_amd64-ubuntu20.04-${OPENROAD_VERSION}.deb
+	sudo apt install -y ./openroad_2.0_amd64-ubuntu20.04-${OPENROAD_VERSION}.deb
 	wget https://www.klayout.org/downloads/Ubuntu-22/klayout_${KLAYOUT_VERSION}-1_amd64.deb
 	sudo apt install -y ./klayout_${KLAYOUT_VERSION}-1_amd64.deb
 	rm ./*.deb
