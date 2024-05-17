@@ -65,17 +65,23 @@ function install_pdk {
 	cd ../../
 }
 
-function install_openroad {
+function install_openroad_deps {
+	mkdir -p tools
+	cd tools
 	sudo add-apt-repository -y ppa:deadsnakes/ppa
 	sudo apt-get update
 	sudo apt-get install -y python3.9 python3.9-dev python3-pip libpython3.9
-	mkdir -p tools
-	cd tools
 	wget https://github.com/Precision-Innovations/OpenROAD/releases/download/${OPENROAD_VERSION}/openroad_2.0_amd64-ubuntu20.04-${OPENROAD_VERSION}.deb
 	sudo apt install -y ./openroad_2.0_amd64-ubuntu20.04-${OPENROAD_VERSION}.deb
 	wget https://www.klayout.org/downloads/Ubuntu-22/klayout_${KLAYOUT_VERSION}-1_amd64.deb
 	sudo apt install -y ./klayout_${KLAYOUT_VERSION}-1_amd64.deb
 	rm ./*.deb
+	cd ../
+}
+
+function install_openroad {
+	mkdir -p tools
+	cd tools
 	git clone https://github.com/${OPENROAD_FLOW_ORGA}/OpenROAD-flow-scripts.git
 	cd OpenROAD-flow-scripts/
 	git checkout ${OPENROAD_FLOW_VERSION}
@@ -126,6 +132,7 @@ if ! test -d "pdks"; then
 	install_pdk
 fi
 if ! test -d "tools/OpenROAD-flow-scripts"; then
+	install_openroad_deps
 	install_openroad
 	fetch_elemrv
 fi
@@ -135,4 +142,3 @@ fi
 if ! test -d "modules/IHP-Open-DesignLib"; then
 	clone_release_repro
 fi
-
