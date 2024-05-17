@@ -54,7 +54,25 @@ sg13g2-simulate:
 sg13g2-synthesize:
 	source ${OPENROAD_FLOW_ROOT}/../env.sh && make -C ${OPENROAD_FLOW_ROOT} DESIGN_CONFIG=${OPENROAD_FLOW_ROOT}/designs/ihp-sg13g2/ElemRV/config.mk
 
-sg13g2-test:
+sg13g2-clean-synth:
+	source ${OPENROAD_FLOW_ROOT}/../env.sh && make -C ${OPENROAD_FLOW_ROOT} DESIGN_CONFIG=${OPENROAD_FLOW_ROOT}/designs/ihp-sg13g2/ElemRV/config.mk clean_synth
+
+sg13g2-clean-floorplan:
+	source ${OPENROAD_FLOW_ROOT}/../env.sh && make -C ${OPENROAD_FLOW_ROOT} DESIGN_CONFIG=${OPENROAD_FLOW_ROOT}/designs/ihp-sg13g2/ElemRV/config.mk clean_floorplan
+
+sg13g2-clean-place:
+	source ${OPENROAD_FLOW_ROOT}/../env.sh && make -C ${OPENROAD_FLOW_ROOT} DESIGN_CONFIG=${OPENROAD_FLOW_ROOT}/designs/ihp-sg13g2/ElemRV/config.mk clean_place
+
+sg13g2-clean-cts:
+	source ${OPENROAD_FLOW_ROOT}/../env.sh && make -C ${OPENROAD_FLOW_ROOT} DESIGN_CONFIG=${OPENROAD_FLOW_ROOT}/designs/ihp-sg13g2/ElemRV/config.mk clean_cts
+
+sg13g2-clean-route:
+	source ${OPENROAD_FLOW_ROOT}/../env.sh && make -C ${OPENROAD_FLOW_ROOT} DESIGN_CONFIG=${OPENROAD_FLOW_ROOT}/designs/ihp-sg13g2/ElemRV/config.mk clean_route
+
+sg13g2-clean-finish:
+	source ${OPENROAD_FLOW_ROOT}/../env.sh && make -C ${OPENROAD_FLOW_ROOT} DESIGN_CONFIG=${OPENROAD_FLOW_ROOT}/designs/ihp-sg13g2/ElemRV/config.mk clean_finish
+
+sg13g2-simulate-post-layout:
 	iverilog -o elemrv_tb \
 		${OPENROAD_FLOW_ROOT}/designs/ihp-sg13g2/ElemRV/test/elemrv_tb.v \
 		${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.v \
@@ -64,7 +82,7 @@ sg13g2-test:
 	# Don't use gtkwave from oss-cad-suite
 	/usr/bin/gtkwave -F elemrv_tb.vcd
 
-sg13g2-test-xilinx:
+sg13g2-simulate-post-layout-xilinx:
 	$(XILINX_HOME)/bin/xvlog ${OPENROAD_FLOW_ROOT}/designs/ihp-sg13g2/ElemRV/test/elemrv_tb.v
 	$(XILINX_HOME)/bin/xvlog ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.v
 	$(XILINX_HOME)/bin/xvlog ${OPENROAD_FLOW_ROOT}/platforms/ihp-sg13g2/verilog/sg13g2_stdcell.v
