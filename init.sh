@@ -13,6 +13,7 @@ ZEPHYR_SDK_RELEASE=0.16.5
 
 NAFARR_VERSION=072bf1ed3125a92e6f09c876c9040179b8d698a0
 ZIBAL_VERSION=6d3c9b406c102cf7dfa8b3210aa90104651952a9
+IHP_PDK_VERSION=5a42d03194e8c98558f4e34538338a60550f89b9
 
 function fetch_elements {
 	mkdir -p modules/elements
@@ -39,7 +40,7 @@ function fetch_elements {
 function fetch_elemrv {
 	mkdir -p tools/OpenROAD-flow-scripts/flow/designs/ihp-sg13g2/
 	cd tools/OpenROAD-flow-scripts/flow/designs/ihp-sg13g2/
-	git clone git@github.com:SteffenReith/ElemRV.git
+	git clone https://github.com/SteffenReith/ElemRV.git
 	cd -
 }
 
@@ -59,9 +60,9 @@ function fetch_zephyr_sdk {
 function install_pdk {
 	mkdir -p pdks
 	cd pdks/
-	git clone git@github.com:IHP-GmbH/IHP-Open-PDK.git
+	git clone https://github.com/IHP-GmbH/IHP-Open-PDK.git
 	cd IHP-Open-PDK
-	git checkout -t origin/dev
+	git checkout -t ${IHP_PDK_VERSION}
 	cd ../../
 }
 
