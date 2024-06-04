@@ -62,7 +62,7 @@ function install_pdk {
 	cd pdks/
 	git clone https://github.com/IHP-GmbH/IHP-Open-PDK.git
 	cd IHP-Open-PDK
-	git checkout -t ${IHP_PDK_VERSION}
+	git checkout ${IHP_PDK_VERSION}
 	cd ../../
 }
 
