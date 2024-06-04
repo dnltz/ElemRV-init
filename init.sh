@@ -17,19 +17,19 @@ ZIBAL_VERSION=6d3c9b406c102cf7dfa8b3210aa90104651952a9
 function fetch_elements {
 	mkdir -p modules/elements
 	cd modules/elements/
-	git clone git@github.com:SpinalHDL/SpinalCrypto.git
+	git clone https://github.com/SpinalHDL/SpinalCrypto.git
 	cd SpinalCrypto
 	git checkout 27e0ceb430ac
 	cd ../
-	git clone git@github.com:aesc-silicon/elements-nafarr.git nafarr
+	git clone https://github.com/aesc-silicon/elements-nafarr.git nafarr
 	cd nafarr
 	git checkout ${NAFARR_VERSION}
 	cd ../
-	git clone git@github.com:aesc-silicon/elements-zibal.git zibal
+	git clone https://github.com/aesc-silicon/elements-zibal.git zibal
 	cd zibal
 	git checkout ${ZIBAL_VERSION}
 	cd ../
-	git clone git@github.com:aesc-silicon/elements-vexriscv.git vexriscv
+	git clone https://github.com/aesc-silicon/elements-vexriscv.git vexriscv
 	cd vexriscv
 	git checkout 15e5d08322ef
 	cd ../
@@ -102,7 +102,7 @@ function install_gdsiistl {
 
 function clone_release_repro {
 	cd modules
-	git clone git@github.com:SteffenReith/IHP-Open-DesignLib.git
+	git clone https://github.com/SteffenReith/IHP-Open-DesignLib.git
         cd ..
 }
 
