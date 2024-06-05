@@ -6,60 +6,103 @@ Fully Open Source RISC-V Microcontroller written in SpinalHDL. The chip layout w
 Installation
 ############
 
-- Download and build all components::
+ElemRV-init comes with a container image which has all required host dependencies installed. Therefore, only the sources have to be locally installed and you keep your host system clean.
+
+- Install podman::
+
+	sudo apt install podman
+
+- Build a container::
+
+	podman build -t elemrv-init:v1 .
+
+- Download all sources::
 
 	chmod +x init.sh
 	./init.sh
 
+Container
+#########
+
+The following command can be used to run Makefile targets. Just replace <target> with the correct name.
+
+.. code-block:: text
+
+    podman run \
+        --rm=true \
+        -v /home:/home \
+        -v $XAUTHORITY:$XAUTHORITY:ro \
+        -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
+        --userns=keep-id \
+        --workdir=$PWD \
+        -e "DISPLAY" \
+        -it elemrv-init:v1 \
+        bash -c 'make <target>'
+
+Please keep in mind that Klayout needs to write to the PDK directory to proper draw all cells. Just add
+an additional volume to the podman run command.
+
+.. code-block:: text
+
+    podman run \
+        --rm=true \
+        -v $PWD/pdks/:/opt/elements/pdks/ \
+        -v /home:/home \
+        ...
+
 ASIC Flow
 #########
 
-Create a layout from the Verilog file.
+First, create a layout from the Verilog file.
 
 .. code-block:: text
 
-    sg13g2-synthesize
+    podman run \
+        --rm=true \
+        -v /home:/home \
+        -v $XAUTHORITY:$XAUTHORITY:ro \
+        -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
+        --userns=keep-id \
+        --workdir=$PWD \
+        -e "DISPLAY" \
+        -it elemrv-init:v1 \
+        bash -c 'make sg13g2-synthesize'
 
 Please check Known Issues in case the chip layout failed.
 
-Finally, open the chip layout and inspect the layout.
+Next, open the chip layout and inspect the layout.
 
 .. code-block:: text
 
-    sg13g2-gui
+    podman run \
+        --rm=true \
+        -v $PWD/pdks/:/opt/elements/pdks/ \
+        -v /home:/home \
+        -v $XAUTHORITY:$XAUTHORITY:ro \
+        -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
+        --userns=keep-id \
+        --workdir=$PWD \
+        -e "DISPLAY" \
+        -it elemrv-init:v1 \
+        bash -c 'make sg13g2-klayout'
 
-Docker
-######
-
-Custom Image
-************
-
-A Docker Compose configuration is provided for systems that do not run with the recommended
-versions. The Docker will have included all required packages for the SDK, except vendor toolchains.
-Build the image (which can take some minutes).
-
-.. code-block:: text
-
-    docker-compose build
-
-Next, start the Docker in the background.
+Alternatively, run Design Rule Checks to verify the chip is good.
 
 .. code-block:: text
 
-    docker-compose up -d
+    podman run \
+        --rm=true \
+        -v $PWD/pdks/:/opt/elements/pdks/ \
+        -v /home:/home \
+        -v $XAUTHORITY:$XAUTHORITY:ro \
+        -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
+        --userns=keep-id \
+        --workdir=$PWD \
+        -e "DISPLAY" \
+        -it elemrv-init:v1 \
+        bash -c 'make sg13g2-drc'
 
-Afterwards, west can be used identical to the CLI.
-
-.. code-block:: text
-
-    sudo docker exec -it ElemRV_1 make sg13g2-synthesize
-    sudo docker exec -it ElemRV_1 make sg13g2-gui
-
-Finally, stop the Docker.
-
-.. code-block:: text
-
-    docker-compose stop
+Use the `make sg13g2-drc-gui` target to show all DRC issues.
 
 Known Issues
 ############
@@ -69,7 +112,7 @@ No known issues so far.
 License
 #######
 
-Copyright (c) 2024 Steffen Reith and Daniel Schulty. Released under the `Apache License`_.
+Copyright (c) 2024 Steffen Reith and Daniel Schultz. Released under the `Apache License`_.
 
 .. _Apache License: LICENSE
 

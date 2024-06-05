@@ -2,16 +2,14 @@ SHELL := /bin/bash
 
 .EXPORT_ALL_VARIABLES:
 
-PATH=${PWD}/oss-cad-suite/bin/:${PWD}/tools/magic/build/bin/:$(shell printenv PATH)
+INSTALL_PATH=/opt/elements/
+PATH=${INSTALL_PATH}/oss-cad-suite/bin/:${INSTALL_PATH}/tools/magic/build/bin/:$(shell printenv PATH)
 OPENROAD_FLOW_ROOT=${PWD}/tools/OpenROAD-flow-scripts/flow
-CAD_ROOT=${PWD}/tools/magic/build/lib/
+CAD_ROOT=${INSTALL_PATH}/tools/magic/build/lib/
 OPENROAD_EXE=/usr/bin/openroad
-YOSYS_CMD=${PWD}/oss-cad-suite/bin/yosys
+YOSYS_CMD=${INSTALL_PATH}/oss-cad-suite/bin/yosys
 
-OSS_CAD_SUITE_DATE="2024-04-18"
-OSS_CAD_SUITE_STAMP="${OSS_CAD_SUITE_DATE//-}"
-
-KLAYOUT_HOME=${PWD}/pdks/IHP-Open-PDK/ihp-sg13g2/libs.tech/klayout/
+KLAYOUT_HOME=${INSTALL_PATH}/pdks/IHP-Open-PDK/ihp-sg13g2/libs.tech/klayout/
 XILINX_HOME=/opt/xilinx/Vivado/2020.2/
 
 BOARD=SG13G2
@@ -95,7 +93,7 @@ sg13g2-openroad:
 	openroad -gui <(echo read_db ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.odb)
 
 sg13g2-klayout:
-	klayout -e ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.gds
+	klayout -e -n sg13g2 ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.gds
 
 sg13g2-drc:
 	(cd ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base && klayout -b -r ${KLAYOUT_HOME}/tech/drc/sg13g2.lydrc -rd cell=ElemRVTop ${OPENROAD_FLOW_ROOT}/results/ihp-sg13g2/ElemRV/base/6_final.gds)

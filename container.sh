@@ -43,8 +43,6 @@ function install_pdk {
 function install_openroad_deps {
 	mkdir -p ${INSTALL_PATH}
 	cd ${INSTALL_PATH}
-	mkdir -p tools
-	cd tools
 	sudo add-apt-repository -y ppa:deadsnakes/ppa
 	sudo apt-get update
 	sudo apt-get install -y python3.9 python3.9-dev python3-pip libpython3.9
@@ -53,7 +51,6 @@ function install_openroad_deps {
 	wget https://www.klayout.org/downloads/Ubuntu-22/klayout_${KLAYOUT_VERSION}-1_amd64.deb
 	sudo apt install -y ./klayout_${KLAYOUT_VERSION}-1_amd64.deb
 	rm ./*.deb
-	cd ../
 }
 
 function print_usage {

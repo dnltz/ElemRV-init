@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
     ssh \
     git \
     curl \
+    time \
     libtool-bin \
     autotools-dev \
     automake \
@@ -48,9 +49,8 @@ RUN curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E4
 RUN chmod 644 /etc/apt/trusted.gpg.d/scalasbt-release.gpg
 RUN apt-get update && apt-get install -y sbt
 
-WORKDIR home/
-
+WORKDIR /opt/elements/
 RUN git clone https://github.com/dnltz/ElemRV-init.git
 WORKDIR ElemRV-init
-RUN chmod +x init.sh
-RUN ./init.sh
+RUN chmod +x container.sh
+RUN ./container.sh
