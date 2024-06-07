@@ -23,7 +23,7 @@ NAFARR_BASE=${PWD}/modules/elements/nafarr/
 ZIBAL_BASE=${PWD}/modules/elements/zibal/
 BUILD_ROOT=${ZIBAL_BASE}/build/
 ELEMENTS_BASE=${ZIBAL_BASE}
-GCC=${PWD}/zephyr-sdk-0.16.5/riscv64-zephyr-elf/bin/riscv64-zephyr-elf
+GCC=${INSTALL_PATH}/zephyr-sdk-0.16.5/riscv64-zephyr-elf/bin/riscv64-zephyr-elf
 
 tapeout: sg13g2-synthesize sg13g2-drc sg13g2-drc-gui
 .PHONY: tapeout
