@@ -36,7 +36,7 @@ function fetch_elemrv {
 	cd -
 }
 
-function install_openroad {
+function install_orfs {
 	mkdir -p tools
 	cd tools
 	git clone https://github.com/${OPENROAD_FLOW_ORGA}/OpenROAD-flow-scripts.git
@@ -90,7 +90,7 @@ if ! test -d "modules/elements"; then
 	fetch_elements
 fi
 if ! test -d "tools/OpenROAD-flow-scripts"; then
-	install_openroad
+	install_orfs
 	fetch_elemrv
 fi
 if ! test -d "tools/gdsiistl"; then

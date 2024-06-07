@@ -11,10 +11,11 @@ ElemRV-init comes with a container image which has all required host dependencie
 - Install podman::
 
 	sudo apt install podman
+	pip3 install podman-compose --user
 
 - Build a container::
 
-	podman build -t elemrv-init:v1 .
+        podman-compose build
 
 - Download all sources::
 
@@ -24,31 +25,11 @@ ElemRV-init comes with a container image which has all required host dependencie
 Container
 #########
 
-The following command can be used to run Makefile targets. Just replace <target> with the correct name.
+Start the ElemRV container in the background with following command:
 
 .. code-block:: text
 
-    podman run \
-        --rm=true \
-        -v /home:/home \
-        -v $XAUTHORITY:$XAUTHORITY:ro \
-        -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
-        --userns=keep-id \
-        --workdir=$PWD \
-        -e "DISPLAY" \
-        -it elemrv-init:v1 \
-        bash -c 'make <target>'
-
-Please keep in mind that Klayout needs to write to the PDK directory to proper draw all cells. Just add
-an additional volume to the podman run command.
-
-.. code-block:: text
-
-    podman run \
-        --rm=true \
-        -v $PWD/pdks/:/opt/elements/pdks/ \
-        -v /home:/home \
-        ...
+    podman-compose up -d
 
 ASIC Flow
 #########
@@ -57,16 +38,7 @@ First, create a layout from the Verilog file.
 
 .. code-block:: text
 
-    podman run \
-        --rm=true \
-        -v /home:/home \
-        -v $XAUTHORITY:$XAUTHORITY:ro \
-        -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
-        --userns=keep-id \
-        --workdir=$PWD \
-        -e "DISPLAY" \
-        -it elemrv-init:v1 \
-        bash -c 'make sg13g2-synthesize'
+    podman exec --workdir=$PWD -it elemenrv_container bash -c 'make sg13g2-synthesize'
 
 Please check Known Issues in case the chip layout failed.
 
@@ -74,40 +46,23 @@ Next, open the chip layout and inspect the layout.
 
 .. code-block:: text
 
-    podman run \
-        --rm=true \
-        -v $PWD/pdks/:/opt/elements/pdks/ \
-        -v /home:/home \
-        -v $XAUTHORITY:$XAUTHORITY:ro \
-        -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
-        --userns=keep-id \
-        --workdir=$PWD \
-        -e "DISPLAY" \
-        -it elemrv-init:v1 \
-        bash -c 'make sg13g2-klayout'
+    podman exec --workdir=$PWD -it elemenrv_container bash -c 'make sg13g2-klayout'
 
 Alternatively, run Design Rule Checks to verify the chip is good.
 
 .. code-block:: text
 
-    podman run \
-        --rm=true \
-        -v $PWD/pdks/:/opt/elements/pdks/ \
-        -v /home:/home \
-        -v $XAUTHORITY:$XAUTHORITY:ro \
-        -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
-        --userns=keep-id \
-        --workdir=$PWD \
-        -e "DISPLAY" \
-        -it elemrv-init:v1 \
-        bash -c 'make sg13g2-drc'
+    podman exec --workdir=$PWD -it elemenrv_container bash -c 'make sg13g2-drc'
 
 Use the `make sg13g2-drc-gui` target to show all DRC issues.
 
 Known Issues
 ############
 
-No known issues so far.
+podman-compose is unable to find a container called 'elemrv-init_elemenrv_1'. The `containernetworking-plugins` is too old on some Ubuntu version. Update it manually to a newer version::
+
+    curl -O http://archive.ubuntu.com/ubuntu/pool/universe/g/golang-github-containernetworking-plugins/containernetworking-plugins_1.1.1+ds1-3build1_amd64.deb
+    dpkg -i containernetworking-plugins_1.1.1+ds1-3build1_amd64.deb
 
 License
 #######
