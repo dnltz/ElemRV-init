@@ -50,7 +50,7 @@ RUN chmod 644 /etc/apt/trusted.gpg.d/scalasbt-release.gpg
 RUN apt-get update && apt-get install -y sbt
 
 WORKDIR /opt/elements/
-RUN git clone https://github.com/dnltz/ElemRV-init.git
-WORKDIR ElemRV-init
+RUN git clone https://github.com/aesc-silicon/elements-container.git
+WORKDIR elements-container/
 RUN chmod +x container.sh
 RUN ./container.sh
