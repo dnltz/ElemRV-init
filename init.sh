@@ -5,7 +5,6 @@ OPENROAD_FLOW_VERSION=53a9b78f1f8e851c45d5e3cfa90e3bd854ca0cd7
 
 NAFARR_VERSION=072bf1ed3125a92e6f09c876c9040179b8d698a0
 ZIBAL_VERSION=6d3c9b406c102cf7dfa8b3210aa90104651952a9
-IHP_PDK_VERSION=5a42d03194e8c98558f4e34538338a60550f89b9
 
 function fetch_elements {
 	mkdir -p modules/elements
@@ -57,15 +56,6 @@ function install_gdsiistl {
 	cd ../../
 }
 
-function install_pdk {
-	mkdir -p pdks
-	cd pdks/
-	git clone https://github.com/IHP-GmbH/IHP-Open-PDK.git
-	cd IHP-Open-PDK
-	git checkout ${IHP_PDK_VERSION}
-	cd ../../
-}
-
 function clone_release_repro {
 	mkdir -p modules
 	cd modules
@@ -95,10 +85,6 @@ if ! test -d "tools/OpenROAD-flow-scripts"; then
 fi
 if ! test -d "tools/gdsiistl"; then
 	install_gdsiistl
-fi
-
-if ! test -d "pdks"; then
-	install_pdk
 fi
 
 if ! test -d "modules/IHP-Open-DesignLib"; then
