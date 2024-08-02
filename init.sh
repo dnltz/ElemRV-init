@@ -41,7 +41,6 @@ function install_orfs {
 	git clone https://github.com/${OPENROAD_FLOW_ORGA}/OpenROAD-flow-scripts.git
 	cd OpenROAD-flow-scripts/
 	git checkout ${OPENROAD_FLOW_VERSION}
-	git submodule update --init --recursive --progress
 	cd ../../
 }
 
