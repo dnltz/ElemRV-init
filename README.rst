@@ -10,26 +10,66 @@ ElemRV-init comes with a container image which has all required host dependencie
 
 - Install podman::
 
-	sudo apt install podman
-	pip3 install podman-compose --user
+        sudo apt install podman
 
-- Build a container::
+- Build the podman container::
 
-        podman-compose build
+        podman build -t elemrv:v1.0 .
+
+        podman run \
+            -v $XAUTHORITY:$XAUTHORITY:ro \
+            -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
+            -e "DISPLAY" \
+            -v $PWD:/srv/elemrv \
+            --workdir=/srv/elemrv \
+            --detach \
+            --name elemrv_container \
+            -it elemrv:v1.0 \
+            sleep infinity
 
 - Download all sources::
 
-	chmod +x init.sh
-	./init.sh
+        ./init.sh
 
 Container
 #########
 
-Start the ElemRV container in the background with following command:
+This chapter is a quick introduction into container handling. After the installation, you should
+have a container called `elemrv_container` running on your system.
 
 .. code-block:: text
 
-    podman-compose up -d
+    $ podman ps
+    CONTAINER ID  IMAGE                    COMMAND         CREATED        STATUS            PORTS       NAMES
+    6a4bc5082aeb  localhost/elemrv:v1.0    sleep infinity  5 minutes ago  Up 5 minutes ago              elemrv_container
+
+If it's not running, you can check if the container exists.
+
+.. code-block:: text
+
+    $ podman container ls -a
+    CONTAINER ID  IMAGE                    COMMAND         CREATED        STATUS            PORTS       NAMES
+    6a4bc5082aeb  localhost/elemrv:v1.0    sleep infinity  7 minutes ago  Up 7 minutes ago              elemrv_container
+
+When you're finished and you want to stop the container, run the following command to stop the
+ElemRV container.
+
+.. code-block:: text
+
+    podman stop elemrv_container
+
+Obviously, before the next session, start the container again.
+
+.. code-block:: text
+
+    podman start elemrv_container
+
+The next chapter guides through the ASIC flow. However, you can also go into the container and run
+all make targets there.
+
+.. code-block:: text
+
+    podman exec -it elemenrv_container bash
 
 ASIC Flow
 #########
@@ -38,31 +78,28 @@ First, create a layout from the Verilog file.
 
 .. code-block:: text
 
-    podman exec --workdir=$PWD -it elemenrv_container bash -c 'make sg13g2-synthesize'
+    podman exec -it elemenrv_container bash -c 'make sg13g2-synthesize'
 
 Please check Known Issues in case the chip layout failed.
 
-Next, open the chip layout and inspect the layout.
+Next, open the chip yout and inspect it.
 
 .. code-block:: text
 
-    podman exec --workdir=$PWD -it elemenrv_container bash -c 'make sg13g2-klayout'
+    podman exec -it elemenrv_container bash -c 'make sg13g2-klayout'
 
 Alternatively, run Design Rule Checks to verify the chip is good.
 
 .. code-block:: text
 
-    podman exec --workdir=$PWD -it elemenrv_container bash -c 'make sg13g2-drc'
+    podman exec -it elemenrv_container bash -c 'make sg13g2-drc'
 
 Use the `make sg13g2-drc-gui` target to show all DRC issues.
 
 Known Issues
 ############
 
-podman-compose is unable to find a container called 'elemrv-init_elemenrv_1'. The `containernetworking-plugins` is too old on some Ubuntu version. Update it manually to a newer version::
-
-    curl -O http://archive.ubuntu.com/ubuntu/pool/universe/g/golang-github-containernetworking-plugins/containernetworking-plugins_1.1.1+ds1-3build1_amd64.deb
-    dpkg -i containernetworking-plugins_1.1.1+ds1-3build1_amd64.deb
+-
 
 License
 #######

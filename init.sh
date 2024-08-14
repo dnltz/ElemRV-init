@@ -59,7 +59,7 @@ function clone_release_repro {
 	mkdir -p modules
 	cd modules
 	git clone https://github.com/SteffenReith/IHP-Open-DesignLib.git
-        cd ..
+	cd ..
 }
 
 function print_usage {
